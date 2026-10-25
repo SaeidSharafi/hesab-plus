@@ -19,11 +19,18 @@ and not a PWA.
 - **Build an APK free:** push to GitHub and run the **Android APK** workflow
   ([`.github/workflows/android.yml`](.github/workflows/android.yml)); download the artifact.
 
-## Verified here
+## Verified build
 
+- **APK:** [v2.0.0-native release](https://github.com/SaeidSharafi/hesab-plus/releases/tag/v2.0.0-native)
+  (private repo; also `dist/hesab-plus-2.0.0.apk` in this workspace).
+- **Cloud run:** [Android APK #40197612172](https://github.com/SaeidSharafi/hesab-plus/actions/runs/40197612172)
+  — 5m09s, `apksigner` v2 signature verified.
+- **Manifest:** `ir.hesab.plus`, versionName `2.0.0`, compileSdk 35, targetSdk 35, minSdk 26, label `حساب+`.
+- **Native libraries:** `arm64-v8a` (modern Android phones).
 - `php artisan test` → **47 passed / 322 assertions**
 - `php artisan native:validate` → **passed** (20 expected warnings about dynamic view resolution)
-- No JDK, Android SDK, Gradle or emulator was installed in this environment.
+
+No JDK, Android SDK, Gradle or emulator was installed in this environment; everything was built on GitHub's runner.
 
 ## Implemented
 

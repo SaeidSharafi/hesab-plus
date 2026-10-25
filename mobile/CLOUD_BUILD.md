@@ -68,6 +68,14 @@ APK, and uploads it as an artifact.
 - `keytool` creates a **disposable CI signing key** (`hesabplus-ci`). This is fine for test installs.
 - `php artisan native:package android --build-type=release` signs the APK.
 - The APK is uploaded for 14 days.
+- `apksigner verify` and `aapt dump badging` run in CI before upload.
+
+The current verified build is
+[v2.0.0-native](https://github.com/SaeidSharafi/hesab-plus/releases/tag/v2.0.0-native)
+(`ir.hesab.plus`, versionName 2.0.0, minSdk 26, targetSdk 35, arm64-v8a, v2 signature).
+
+**Disposable key:** every CI run generates a fresh keystore, so a newer CI APK cannot update an older one in place.
+Uninstall the previous build first, or configure a persistent keystore for real updates.
 
 ### For a Play Store release
 

@@ -103,6 +103,16 @@ mobile/
 - Deleting a loan/cheque/debt cascades its generated transactions, so cash balances self-correct.
 - Backup/restore is all-or-nothing in a transaction with foreign keys disabled.
 
+## Verified cloud build
+
+The app was built and signed on GitHub Actions (no local SDK):
+
+- **Release:** [v2.0.0-native](https://github.com/SaeidSharafi/hesab-plus/releases/tag/v2.0.0-native)
+- **Run:** [Android APK #40197612172](https://github.com/SaeidSharafi/hesab-plus/actions/runs/40197612172)
+- `apksigner`: **v2 signature verified**; package `ir.hesab.plus`, versionName `2.0.0`, minSdk 26, targetSdk 35,
+  label `حساب+`, ABI `arm64-v8a`.
+- APK size ≈ 36 MB. Install on an arm64 Android 8+ phone (unknown sources).
+
 ## Testing
 
 ```bash
@@ -128,8 +138,13 @@ unit tests for Jalali/Money/Amortization and feature tests for every write flow.
 - **External restore**: restore uses the app's internal backup files; sharing works, but importing an external JSON
   file needs a document-picker plugin.
 - **Charts**: reports/forecast currently use native progress bars and month rows, not a canvas line/treemap chart.
-- **Native screenshot verification**: no emulator is available here, so the UI was verified through 46 in-process
+- **Native screenshot verification**: no emulator is available here, so the UI was verified through 47 in-process
   render/interaction tests. Do a Jump device pass for visual polish.
+- **CI signing key**: the cloud workflow generates a fresh disposable key per run, so installing a newer CI APK
+  over an older one fails with a signature mismatch. Uninstall the previous app first, or configure a persistent
+  keystore (documented in [CLOUD_BUILD.md](CLOUD_BUILD.md)) for true updates.
+- **ABI**: the current NativePHP Android build ships `arm64-v8a` only. It will not install on old 32-bit phones or
+  on x86 emulators.
 
 ## Spec
 
