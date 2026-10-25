@@ -1,0 +1,125 @@
+name: Android APK
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'mobile/**'
+      - '.github/workflows/android.yml'
+
+concurrency:
+  group: android-apk-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build signed APK
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    defaults:
+      run:
+        working-directory: mobile
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP 8.4
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: dom, simplexml, mbstring, zip, sqlite3, pdo_sqlite, gd, bcmath, curl, fileinfo, tokenizer, xml, ctype, json
+          coverage: none
+          tools: composer:v2
+
+      - name: Setup Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install Android platform and build tools
+        run: |
+          yes | sdkmanager --licenses > /dev/null || true
+          sdkmanager "platform-tools" "platforms;android-35" "build-tools;35.0.0"
+
+      - name: Cache Composer packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.composer/cache
+          key: composer-${{ runner.os }}-${{ hashFiles('mobile/composer.lock') }}
+          restore-keys: composer-${{ runner.os }}-
+
+      - name: Cache Gradle
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: gradle-${{ runner.os }}-${{ hashFiles('mobile/composer.lock') }}
+          restore-keys: gradle-${{ runner.os }}-
+
+      - name: Install PHP dependencies
+        run: composer install --no-interaction --prefer-dist --no-progress --optimize-autoloader
+
+      - name: Prepare environment
+        run: |
+          cp .env.example .env
+          php artisan key:generate --ansi
+          touch database/database.sqlite
+          sed -i "s|^APP_ENV=.*|APP_ENV=production|" .env
+          sed -i "s|^APP_DEBUG=.*|APP_DEBUG=false|" .env
+          sed -i "s|^NATIVEPHP_APP_VERSION=.*|NATIVEPHP_APP_VERSION=2.0.0|" .env
+          sed -i "s|^NATIVEPHP_APP_VERSION_CODE=.*|NATIVEPHP_APP_VERSION_CODE=${{ github.run_number }}|" .env
+          php artisan migrate --force --no-interaction
+
+      - name: Run tests
+        run: php artisan test --compact
+
+      - name: Validate native components
+        run: php artisan native:validate
+
+      - name: Install NativePHP Android runtime
+        run: php artisan native:install android --no-interaction
+
+      - name: Create disposable CI signing key
+        run: |
+          keytool -genkeypair -v \
+            -keystore hesab-release.keystore \
+            -alias hesab \
+            -keyalg RSA \
+            -keysize 2048 \
+            -validity 10000 \
+            -storepass hesabplus-ci \
+            -keypass hesabplus-ci \
+            -dname "CN=Hesab Plus, OU=Mobile, O=Hesab, L=Tehran, C=IR"
+
+      - name: Build signed release APK
+        run: |
+          php artisan native:package android \
+            --build-type=release \
+            --keystore=hesab-release.keystore \
+            --keystore-password=hesabplus-ci \
+            --key-alias=hesab \
+            --key-password=hesabplus-ci \
+            --output=build \
+            --no-interaction \
+            --no-tty
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: hesab-plus-apk
+          path: |
+            mobile/build/**/*.apk
+            mobile/build/**/*.aab
+            mobile/nativephp/android/app/build/outputs/apk/release/**/*.apk
+          if-no-files-found: error
+          retention-days: 14

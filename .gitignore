@@ -1,0 +1,30 @@
+# Web prototype / JS tooling
+node_modules/
+.npm-cache/
+dist/
+coverage/
+
+# Local tooling / references used during development
+.composer/
+.home/
+.refs/
+.toolchain/
+
+# OS noise
+.DS_Store
+*.log
+*:Zone.Identifier
+
+# Secrets
+.env*
+!.env.example
+
+# NativePHP app (generated / local only)
+mobile/vendor/
+mobile/nativephp/
+mobile/build/
+mobile/.env
+mobile/database/*.sqlite
+mobile/storage/app/backups/
+mobile/storage/app/calendar/
+mobile/hesab-release.keystore

@@ -1,0 +1,41 @@
+<?php
+
+use App\NativeComponents\Accounts;
+use App\NativeComponents\AddCheque;
+use App\NativeComponents\AddDebt;
+use App\NativeComponents\AddLoan;
+use App\NativeComponents\Categories;
+use App\NativeComponents\Dashboard;
+use App\NativeComponents\Forecast;
+use App\NativeComponents\Investments;
+use App\NativeComponents\LoanDetail;
+use App\NativeComponents\More;
+use App\NativeComponents\Obligations;
+use App\NativeComponents\Onboarding;
+use App\NativeComponents\PersonLedger;
+use App\NativeComponents\Reminders;
+use App\NativeComponents\Reports;
+use App\NativeComponents\Settings;
+use App\NativeComponents\TransactionEditor;
+use App\NativeComponents\Transactions;
+use Illuminate\Support\Facades\Route;
+
+Route::native('/', Dashboard::class);
+Route::native('/onboarding', Onboarding::class);
+Route::native('/transactions', Transactions::class);
+Route::native('/transactions/new', TransactionEditor::class);
+Route::native('/transactions/{id}/edit', TransactionEditor::class);
+Route::native('/obligations', Obligations::class);
+Route::native('/loans/new', AddLoan::class);
+Route::native('/loans/{id}', LoanDetail::class);
+Route::native('/cheques/new', AddCheque::class);
+Route::native('/debts/new', AddDebt::class);
+Route::native('/people/{id}', PersonLedger::class);
+Route::native('/investments', Investments::class);
+Route::native('/reports', Reports::class);
+Route::native('/forecast', Forecast::class);
+Route::native('/more', More::class);
+Route::native('/settings', Settings::class);
+Route::native('/accounts', Accounts::class);
+Route::native('/categories', Categories::class);
+Route::native('/reminders', Reminders::class);
