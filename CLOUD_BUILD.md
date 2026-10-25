@@ -11,10 +11,9 @@ There are two free online paths.
 NativePHP's free **Jump** app hosts the Laravel app on your phone without compiling it.
 
 1. Install **Jump** on the Android phone: <https://bifrost.nativephp.com/jump>
-2. From the project directory, start the dev server:
+2. From the project root, start the dev server:
 
    ```bash
-   cd mobile
    php artisan native:jump
    ```
 
@@ -28,7 +27,7 @@ NativePHP's free **Jump** app hosts the Laravel app on your phone without compil
   the WSL project:
 
   ```powershell
-  cd \\wsl.localhost\Ubuntu\home\<you>\www\hesab\mobile
+  cd \\wsl.localhost\Ubuntu\home\<you>\www\hesab
   php artisan native:jump
   ```
 
@@ -42,7 +41,7 @@ The app reads `.env`; no build is produced, so nothing is installed globally.
 
 ## B. Free cloud APK — GitHub Actions
 
-The workflow is committed at [`.github/workflows/android.yml`](../.github/workflows/android.yml). It runs on
+The workflow is committed at [`.github/workflows/android.yml`](.github/workflows/android.yml). It runs on
 GitHub's Ubuntu runner, installs PHP 8.4, Java 17 and the Android SDK **on the runner**, builds a signed release
 APK, and uploads it as an artifact.
 
@@ -56,7 +55,7 @@ APK, and uploads it as an artifact.
    git push -u origin main
    ```
 
-3. Open **Actions → Android APK → Run workflow** (or push a change under `mobile/`).
+3. Open **Actions → Android APK → Run workflow** (or push a change under `app/`).
 4. When the job finishes, download the **hesab-plus-apk** artifact from the run page.
 5. Install `app-release.apk` on the phone (open the file, or `adb install -r app-release.apk`).
 
@@ -113,7 +112,7 @@ GitHub Actions is recommended because it is free for normal usage and needs no e
 - **`native:validate` warnings** are caused by screens using `$this->screen('native.…')` instead of a literal
   `view()` call; they are not errors. `Validation passed with 20 warning(s)` is expected.
 - **APK not found?** The workflow also uploads
-  `mobile/nativephp/android/app/build/outputs/apk/release/**/*.apk` as a fallback.
+  `nativephp/android/app/build/outputs/apk/release/**/*.apk` as a fallback.
 - **Alarms**: this free build exports `.ics` reminders with three native calendar alarms. OS notification
   scheduling through NativePHP is a paid plugin; see the main README limitations.
 - **RTL**: set the phone/app language to Persian for full RTL layout. The app is Persian-first (`APP_LOCALE=fa`).

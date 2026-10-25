@@ -1,31 +1,22 @@
 {
-  "name": "hesab-plus",
-  "private": true,
-  "version": "2.0.0",
-  "type": "module",
-  "description": "Hesab+ — local-first personal accounting, built mobile-first for Android and installable as a PWA.",
-  "scripts": {
-    "dev": "vite --port 3000 --host 0.0.0.0",
-    "build": "tsc --noEmit && vite build",
-    "preview": "vite preview --port 3000 --host 0.0.0.0",
-    "typecheck": "tsc --noEmit",
-    "test": "vitest run",
-    "test:watch": "vitest"
-  },
-  "dependencies": {
-    "lucide-react": "^1.61.0",
-    "react": "^19.3.1",
-    "react-dom": "^19.3.1"
-  },
-  "devDependencies": {
-    "@tailwindcss/vite": "^4.3.3",
-    "@types/node": "^26.6.5",
-    "@types/react": "^19.3.0",
-    "@types/react-dom": "^19.3.0",
-    "@vitejs/plugin-react": "^6.1.2",
-    "tailwindcss": "^4.3.3",
-    "typescript": "^7.0.2",
-    "vite": "^8.3.5",
-    "vitest": "^5.0.5"
-  }
+    "$schema": "https://www.schemastore.org/package.json",
+    "name": "hesab-plus",
+    "description": "Hesab+ native Android app (Laravel + NativePHP Mobile)",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "build": "vite build",
+        "dev": "vite"
+    },
+    "devDependencies": {
+        "@tailwindcss/vite": "^4.0.0",
+        "axios": "^1.11.0",
+        "concurrently": "^9.0.1",
+        "laravel-vite-plugin": "^2.0.0",
+        "tailwindcss": "^4.0.0",
+        "vite": "^7.0.7"
+    },
+    "imports": {
+        "#nativephp": "./vendor/nativephp/mobile/resources/dist/native.js"
+    }
 }

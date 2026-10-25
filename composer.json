@@ -1,13 +1,14 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
-    "name": "nativephp/mobile-starter",
+    "name": "saeid/hesab-plus",
     "type": "project",
-    "description": "The skeleton application for NativePHP for Mobile.",
+    "description": "Hesab+ native Android personal accounting app (Laravel + NativePHP Mobile).",
     "keywords": [
         "laravel",
-        "framework",
         "nativephp",
-        "mobile"
+        "android",
+        "personal-accounting",
+        "jalali"
     ],
     "license": "MIT",
     "repositories": [
