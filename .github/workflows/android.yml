@@ -95,7 +95,7 @@ jobs:
       - name: Create disposable CI signing key
         run: |
           keytool -genkeypair -v \
-            -keystore hesab-release.keystore \
+            -keystore "$RUNNER_TEMP/hesab-release.keystore" \
             -alias hesab \
             -keyalg RSA \
             -keysize 2048 \
@@ -108,13 +108,20 @@ jobs:
         run: |
           php artisan native:package android \
             --build-type=release \
-            --keystore=hesab-release.keystore \
+            --keystore="$RUNNER_TEMP/hesab-release.keystore" \
             --keystore-password=hesabplus-ci \
             --key-alias=hesab \
             --key-password=hesabplus-ci \
             --output=build \
             --no-interaction \
             --no-tty
+
+      - name: Verify APK signature and manifest
+        run: |
+          APK=build/app-release.apk
+          BT="$ANDROID_HOME/build-tools/35.0.0"
+          "$BT/apksigner" verify --verbose "$APK"
+          "$BT/aapt" dump badging "$APK" | head -n 20
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
