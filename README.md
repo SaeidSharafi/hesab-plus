@@ -68,7 +68,7 @@ See [CLOUD_BUILD.md](CLOUD_BUILD.md) for the full walkthrough.
 
 - **Release:** [v2.0.0-native](https://github.com/SaeidSharafi/hesab-plus/releases/tag/v2.0.0-native)
 - **Local APK:** `dist/hesab-plus-2.0.0.apk` (not committed; the release asset is the canonical download)
-- **Run:** [Android APK #40197612172](https://github.com/SaeidSharafi/hesab-plus/actions/runs/40197612172)
+- **Run:** [Android APK #40220010036](https://github.com/SaeidSharafi/hesab-plus/actions/runs/40220010036)
 - `apksigner`: **v2 signature verified**; package `ir.hesab.plus`, versionName `2.0.0`, minSdk 26, targetSdk 35,
   label `حساب+`, ABI `arm64-v8a`.
 - APK size ≈ 36 MB. Install on an arm64 Android 8+ phone (unknown sources).

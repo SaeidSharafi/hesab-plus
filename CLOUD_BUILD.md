@@ -71,7 +71,8 @@ APK, and uploads it as an artifact.
 
 The current verified build is
 [v2.0.0-native](https://github.com/SaeidSharafi/hesab-plus/releases/tag/v2.0.0-native)
-(`ir.hesab.plus`, versionName 2.0.0, minSdk 26, targetSdk 35, arm64-v8a, v2 signature).
+(`ir.hesab.plus`, versionName 2.0.0, minSdk 26, targetSdk 35, arm64-v8a, v2 signature), built from the root
+layout in [run #40220010036](https://github.com/SaeidSharafi/hesab-plus/actions/runs/40220010036) (5m04s).
 
 **Disposable key:** every CI run generates a fresh keystore, so a newer CI APK cannot update an older one in place.
 Uninstall the previous build first, or configure a persistent keystore for real updates.
